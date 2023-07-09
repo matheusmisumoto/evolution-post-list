@@ -1,0 +1,21 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-evolution-post-list { display: flex; gap: 2em; flex-wrap: nowrap; padding: 2em 0 !important; color: var(--text);  }
+.wp-block-evolution-post-list section { margin: 0; padding: 0; flex: 1; }
+.wp-block-evolution-post-list div { position: relative; border-radius: 0.25em; overflow: hidden; }
+.wp-block-evolution-post-list section > p { font-size: 1rem; line-height: 1.5em; margin: 0; }
+.wp-block-evolution-post-list section > header { margin: 0.5em 0; display: block; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.9rem; font-weight: bold;  }
+.wp-block-evolution-post-list h3 { font-size: clamp(1.44rem, 3vw, 2.25em); font-weight: 300; margin: 0.25em 0;  }
+ul:not(.sticky) .wp-block-evolution-post-list div { width: 13.125rem; height: 7.5rem; }
+.sticky .wp-block-evolution-post-list { width: 100%; max-width: 90vw; display: flex; border: 0; flex-wrap: wrap; position: relative; padding: 0; margin: 0 auto 0 auto; }
+.sticky .wp-block-evolution-post-list div { height: clamp(13.581rem, 29.5vw, 24.625rem); flex: 6; flex-shrink: 1; padding: 0; border-radius: 0.5rem; position: relative; }
+.sticky .wp-block-evolution-post-list section { flex: 4; display: flex; flex-direction: column; }
+.sticky .wp-block-evolution-post-list section > h3 { font-size: clamp(2rem, 3.66vw, 2.75rem); font-weight: 700; letter-spacing: -0.05em; }
+.sticky .wp-block-evolution-post-list section > p { font-size: clamp(0.875rem, 1.5vw, 1.125rem); margin-top: 1em; margin-bottom: 2em; line-height: 1.5em; letter-spacing: -0.05em; display: inline-block; }
+.sticky .wp-block-evolution-post-list section > footer { font-size: clamp(0.875rem, 1.5vw, 1.1em); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-top: auto; }
+.sticky .wp-block-evolution-post-list div > img { width: 100%; height: 100%; position: absolute; object-fit: cover; object-position: center center; }
+ul:not(.sticky) .wp-block-evolution-post-list div > img { position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
