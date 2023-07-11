@@ -4,7 +4,7 @@
 	"name": "evolution/post-list",
 	"version": "0.1.0",
 	"title": "Evolution - Post List",
-	"category": "widgets",
+	"category": "theme",
 	"icon": "list-view",
     "keywords": [ "evolution" ],
 	"description": "Contains the block elements used to display a list of posts",

@@ -3,7 +3,8 @@
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-components/
  */
-import { TextControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, Spinner, Placeholder } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -11,8 +12,9 @@ import { TextControl } from '@wordpress/components';
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { useSelect, resolveSelect } from '@wordpress/data';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
+import { useEntityProp, store as coreStore } from '@wordpress/core-data';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -26,20 +28,68 @@ import { useSelect, resolveSelect } from '@wordpress/data';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( { attributes, setAttributes, context } ) {
+
+export default function Edit( { 
+	attributes: {
+		showCategory,
+		showExcerpt,
+		showReadMore
+	}, 
+	setAttributes,
+	context: {
+		postType,
+		postId,
+		queryId
+	}
+} ) {
 	const blockProps = useBlockProps();
 
-	const post = useSelect( ( select ) => {
+	const [ rawTitle = '' ] = useEntityProp(
+		'postType',
+		postType,
+		'title',
+		postId
+	);
 
-		const getPost = select( 'core' ).getEntityRecord( 'postType', 'post', context['postId'], { _embed: true });
-		const isLoadingPost = select('core/data').isResolving('core', 'getEntityRecord', ['postType', 'post']);
+	const [ rawExcerpt ] = useEntityProp( 'postType', postType, 'excerpt', postId );
+	const [ categories ] = useEntityProp( 'postType', postType, 'categories', postId );
+	const [ featuredImage ] = useEntityProp( 'postType', postType, 'featured_media', postId);
 
-		if(!isLoadingPost){
+	const toggleAttribute = ( attributeName ) => ( newValue ) =>
+	setAttributes( { [ attributeName ]: newValue } );
+
+	const placeholder = ( content ) => {
+		return (
+			<Placeholder
+				className={ 'block-editor-media-placeholder' }
+				withIllustration={ true }
+			>
+				{ content }
+			</Placeholder>
+		);
+	};
+	
+	let postTitle = <h3>{ __( 'Title' ) }</h3>;
+	let postExcerpt = '';
+	let postImage;
+	let postCategories = <header>{ __('Categories') }</header>;
+
+	if ( postType && postId ) {
+		postTitle = <h3 dangerouslySetInnerHTML={ { __html: rawTitle } } />
+
+		postExcerpt = <p dangerouslySetInnerHTML={
+			{
+				__html: rawExcerpt
+			}
+		}
+		/>
+
+		const getCategories = useSelect( ( select ) => {
 			const categoryArray = [];
 			
-			for(let i = 0; i < getPost.categories.length; i++){
-				const getCategory = select( 'core' ).getEntityRecord( 'taxonomy', 'category', getPost.categories[i]);
-				const isLoadingCategory = select('core/data').isResolving('core', 'getEntityRecord', ['taxonomy', 'category', getPost.categories[i]]);
+			for(let i = 0; i < categories.length; i++){
+				const getCategory = select( 'core' ).getEntityRecord( 'taxonomy', 'category', categories[i]);
+				const isLoadingCategory = select('core/data').isResolving('core', 'getEntityRecord', ['taxonomy', 'category', categories[i]]);
 				if (!isLoadingCategory){
 					if (getCategory !== null && getCategory !== undefined) {
 						categoryArray.push(getCategory);
@@ -47,38 +97,77 @@ export default function Edit( { attributes, setAttributes, context } ) {
 				}
 			}
 			
-			const featuredImage = {};
-			if(getPost && getPost._embedded && getPost._embedded['wp:featuredmedia']){
-				featuredImage.url = getPost._embedded['wp:featuredmedia'][0].source_url;
-			}
-			
 			return {
-				title: getPost.title.raw,
-				featuredImage: featuredImage.url,
-				excerpt: getPost.excerpt.raw,
-				categories: categoryArray
+				names: categoryArray
 			};
-		}
-	}, []);
+		}, [postId]);
 
-	if ( ! post ) {
-		return null;
-	}
+		// Process featured image only if its ID cames from entityProp
+		// to avoid unnecessary API calls
+		if (featuredImage > 0) {
+			const image = useSelect( ( select ) => {
+				const getPost = select( 'core' ).getEntityRecord( 'postType', 'post', postId, { _embed: true });
+				const isLoadingPost = select('core/data').isResolving('core', 'getEntityRecord', ['postType', 'post']);
+				
+				if(!isLoadingPost){
+					const featuredImage = {};
+
+					if(getPost && getPost._embedded && getPost._embedded['wp:featuredmedia']){
+						featuredImage.url = getPost._embedded['wp:featuredmedia'][0].source_url;
+					}
+
+					return {
+						featuredImage: featuredImage.url,
+					};
+				}
+				}, [postId]);
+				
+
+				postCategories = <header>{
+					getCategories.names.length == categories.length ?
+					getCategories.names.map((category) => {
+						if(category !== undefined){
+							return category.name
+						}
+					}).join(', ')
+					:
+					<Spinner />
+				}</header>
+
+				postImage = (image.featuredImage == undefined) ? <div><Spinner /></div> : <div><img src={ image.featuredImage } /></div>
+			}
+		}
 
 	return (
 		<div {...blockProps}>
-			{ post.featuredImage ? <div><img src={post.featuredImage} /></div> : '' }
+			<InspectorControls>
+				<PanelBody title={ __( 'Settings' ) }>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Show Categories' ) }
+						checked={ showCategory }
+						onChange={ toggleAttribute( 'showCategory' ) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Show excerpt' ) }
+						checked={ showExcerpt }
+						onChange={ toggleAttribute( 'showExcerpt' ) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Show "Read More"' ) }
+						checked={ showReadMore }
+						onChange={ toggleAttribute( 'showReadMore' ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
+			{ postImage }
 			<section>
-				<header>{
-					post.categories.map((category) => {
-						if(category !== undefined){
-							return category.name
-						}					
-					}).join(', ')	
-				}</header>
-				<h3>{ post.title }</h3>
-				{ attributes['showExcerpt'] ? <p>{post.excerpt}</p> : '' }
-				{ attributes['showReadMore'] ? <footer>Read more</footer> : '' }
+				{ postCategories }
+				{ postTitle }
+				{ showExcerpt && postExcerpt }
+				{ showReadMore && <footer>{ __('Read more') }</footer> }
 			</section>
 		</div>
 	);

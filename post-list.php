@@ -13,6 +13,103 @@
  * @package           create-block
  */
 
+
+ function evolution_categories($post_ID) {
+	$categories = array();
+	if(get_post_type($post_ID) == 'post') {
+		foreach (get_the_category($post_ID) as $c) {
+			$category = get_category($c);
+			array_push($categories, $category->name);
+		}
+	} else {
+
+		$anc = get_post_ancestors($post_ID);
+
+		$anc = array_reverse($anc);
+
+		foreach ( $anc as $ancestor ) {
+			array_push($categories, get_the_title($ancestor));
+		}
+	}
+	if (sizeOf($categories) > 0) {
+		$post_categories = implode(', ', $categories);
+	} else {
+		$post_categories = '';
+	}
+	return $post_categories;
+}
+
+
+function render_block_evolution_post_list( $attributes, $content, $block ) {
+    
+	if ( ! isset( $block->context['postId'] ) ) {
+		return '';
+	}
+
+	$post_ID = $block->context['postId'];
+
+	$link = get_the_permalink( $post_ID );
+	$title = get_the_title();
+	$excerpt = "";
+	$class = " class=\"wp-block-group\"";
+	$readMore = "";
+	$thumb = "";
+
+
+	if ( ! $title ) {
+		return '';
+	}
+
+	if ( isset( $attributes['className']) ) {
+		$class = ' class="'.$attributes['className'].'"';
+	}
+
+	if ( isset( $attributes['showCategory'] ) && $attributes['showCategory'] ) {
+		$post_terms = evolution_categories($post_ID);
+		$categories = '<header class="wp-block-group">'.$post_terms.'</header>';
+	}
+
+	if ( isset( $attributes['showExcerpt'] ) && $attributes['showExcerpt'] ) {
+		if ( strlen( get_the_excerpt( $post_ID ) ) ){
+			$excerpt = '<p>'.get_the_excerpt( $post_ID ).'</p>';
+		}
+	}
+
+	if ( isset( $attributes['showReadMore'] ) && $attributes['showReadMore']) {
+		if ( strlen( get_the_excerpt( $post_ID ) ) ){
+			$readMore = '<footer class="wp-block-group">'.__( 'Read more', 'evolution' ).'</footer>';
+		}
+	}
+
+	if ( has_post_thumbnail( $post_ID ) ) {
+		$thumb = '<div>'.get_the_post_thumbnail( $post_ID ).'</div>';
+	}
+
+	if ( get_post_format( $post_ID ) == 'link' ) {
+		$link = get_the_excerpt( $post_ID );
+		// $link = preg_replace("^https?:\/\/?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$", get_the_content( $post_ID ));
+	}
+
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'teste' ) );
+
+    return sprintf('<a href="%2$s" title="%5$s">
+        %3$s
+        <section class="wp-block-group">
+            %4$s
+            <h3>%5$s</h3>
+            %6$s
+            %7$s</section></a>',
+			$wrapper_attributes,
+			$link,
+			$thumb,
+			$categories,
+            $title,
+			$excerpt,
+            $readMore
+        );
+		
+}
+
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
  * Behind the scenes, it registers also all assets so they can be enqueued
@@ -21,6 +118,9 @@
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function create_block_gutenpride_block_init() {
-	register_block_type( __DIR__ . '/build' );
+	register_block_type( __DIR__ . '/build',
+		array(
+			'render_callback' => 'render_block_evolution_post_list',
+		));
 }
 add_action( 'init', 'create_block_gutenpride_block_init' );
