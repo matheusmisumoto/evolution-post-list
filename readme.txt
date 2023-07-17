@@ -2,18 +2,17 @@
 Contributors:      Matheus Misumoto
 Tags:              block
 Tested up to:      6.1
-Stable tag:        1.0
+Stable tag:        2.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-A Gutenberg block to show your pride! This block enables you to type text and style it with the color font Gilbert from Type with Pride.
+This plugin for WordPress creates a Gutenberg block containing a template for a list of posts. 
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+Each item contains the post thumbnail, categories, title, excerpt and "read more". All of that information is wrapped inside a link to the post.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+This is an alternative to the standard Posts List Template Block, where the categories are linked to the categories archive, and margins between title, excerpt and read more are not part of the link to the post.
 
 == Installation ==
 
@@ -21,35 +20,23 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload the plugin files to the `/wp-content/plugins/test` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the `evolution-post-list.php` file and the `build` folder to the `/wp-content/plugins/evolution-post-list` directory.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= What about the src folder? =
 
-An answer to that question.
+The src folder contains the React-based source code for the block to work on Gutenberg editor.
 
-= What about foo bar? =
-
-Answer to foo bar dilemma.
-
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+To work on source code, run `npm install` on the folder. The source files should not be upload to the Wordpress installation.
 
 == Changelog ==
 
+= 2.0.0 =
+* Add display options to sticky posts
+* Bug fixes
+
 = 1.0.0 =
-* Release
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+* Initial Release
