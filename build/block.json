@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "evolution/post-list",
+  "version": "0.1.0",
+  "title": "Evolution - Post List",
+  "category": "theme",
+  "icon": "list-view",
+  "keywords": [
+    "evolution"
+  ],
+  "description": "Contains the block elements used to display a list of posts",
+  "attributes": {
+    "className": {
+      "type": "string"
+    },
+    "showCategory": {
+      "type": "boolean",
+      "default": true
+    },
+    "showExcerpt": {
+      "type": "boolean",
+      "default": false
+    },
+    "showReadMore": {
+      "type": "boolean",
+      "default": false
+    },
+    "showCategoryOnSticky": {
+      "type": "boolean",
+      "default": true
+    },
+    "showExcerptOnSticky": {
+      "type": "boolean",
+      "default": true
+    },
+    "showReadMoreOnSticky": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType",
+    "queryId"
+  ],
+  "supports": {
+    "html": false,
+    "__experimentalLayout": {
+      "allowEditing": false
+    }
+  },
+  "textdomain": "evolution",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

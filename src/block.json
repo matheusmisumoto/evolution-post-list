@@ -23,6 +23,18 @@
 		"showReadMore": {
 			"type": "boolean",
 			"default": false
+		},
+		"showCategoryOnSticky": {
+			"type": "boolean",
+			"default": true
+		},
+		"showExcerptOnSticky": {
+			"type": "boolean",
+			"default": true
+		},
+		"showReadMoreOnSticky": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"usesContext": [

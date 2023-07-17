@@ -31,9 +31,13 @@ import { useEntityProp, store as coreStore } from '@wordpress/core-data';
 
 export default function Edit( { 
 	attributes: {
+		className,
 		showCategory,
 		showExcerpt,
-		showReadMore
+		showReadMore,
+		showCategoryOnSticky,
+		showExcerptOnSticky,
+		showReadMoreOnSticky
 	}, 
 	setAttributes,
 	context: {
@@ -156,15 +160,35 @@ export default function Edit( {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Show "Read More"' ) }
+						label={ __( 'Show "Read More" text' ) }
 						checked={ showReadMore }
 						onChange={ toggleAttribute( 'showReadMore' ) }
+					/>
+				</PanelBody>
+				<PanelBody title={ __( 'Sticky Post Settings' ) }>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Show Categories' ) }
+						checked={ showCategoryOnSticky }
+						onChange={ toggleAttribute( 'showCategoryOnSticky' ) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Show Excerpt' ) }
+						checked={ showExcerptOnSticky }
+						onChange={ toggleAttribute( 'showExcerptOnSticky' ) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Show "Read More" text' ) }
+						checked={ showReadMoreOnSticky }
+						onChange={ toggleAttribute( 'showReadMoreOnSticky' ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
 			{ postImage }
 			<section>
-				{ postCategories }
+				{ showCategory && postCategories }
 				{ postTitle }
 				{ showExcerpt && postExcerpt }
 				{ showReadMore && <footer>{ __('Read more') }</footer> }

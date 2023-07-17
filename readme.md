@@ -4,10 +4,11 @@ This plugin for WordPress creates a Gutenberg block containing a template for a 
 
 This is an alternative to the standard Posts List Template Block, where the categories are linked to the categories archive, and margins between title, excerpt and read more are not part of the link to the post.
 
+See it in action: https://matheusmisumoto.dev/blog/
 
 ## Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/evolution-post-list` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the `evolution-post-list.php` file and the `build` folder to the `/wp-content/plugins/evolution-post-list` directory.
 
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 
@@ -18,6 +19,9 @@ This is an alternative to the standard Posts List Template Block, where the cate
 - **ShowCategory (boolean):** Show post categories. Default: *true*.
 - **ShowExcerpt (boolean):** Show post excerpt. Default: *false*.
 - **ShowReadMore (boolean):** Show "read more" text. Default: *false*.
+- **ShowCategoryOnSticky (boolean):** Show post categories. Default: *true*.
+- **ShowExcerptOnSticky (boolean):** Show post excerpt. Default: *true*.
+- **ShowReadMoreOnSticky (boolean):** Show "read more" text. Default: *true*.
 
 
 ## HTML Output
