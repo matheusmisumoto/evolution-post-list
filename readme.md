@@ -2,7 +2,7 @@
 
 This plugin for WordPress creates a Gutenberg block containing a template for a list of posts. Each item contains the post thumbnail, categories, title, excerpt and "read more". All of that information is wrapped inside a link to the post.
 
-This is an alternative to the standard Posts List Template Block, where the categories are linked to the categories archive, and margins between title, excerpt and read more are not part of the link to the post.
+This is an alternative to the standard Posts List Template Block, where the categories are linked to the categories archive, and margins between title, excerpt and "read more" are not part of the link to the post.
 
 See it in action: https://matheusmisumoto.dev/blog/
 
@@ -36,3 +36,9 @@ See it in action: https://matheusmisumoto.dev/blog/
     </section>
 </a>
 ```
+
+## Editing the source code
+
+The output to the website is processed on `evolution-post-list.php` file.
+
+The block preview on Gutenberg visual editor is a React script, which source is located on `/src` folder. To work on it, install the dependencies using `npm install` on the root folder.
