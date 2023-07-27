@@ -42,3 +42,6 @@ See it in action: https://matheusmisumoto.dev/blog/
 The output to the website is processed on `evolution-post-list.php` file.
 
 The block preview on Gutenberg visual editor is a React script, which source is located on `/src` folder. To work on it, install the dependencies using `npm install` on the root folder.
+
+---
+Developed with ☕ by [Matheus Misumoto](https://matheusmisumoto.dev) in Santos, Brazil
