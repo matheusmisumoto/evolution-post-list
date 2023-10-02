@@ -21,7 +21,7 @@
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 
-function evolution_categories($post_ID) {
+ function evolution_categories($post_ID) {
 	$categories = array();
 	if(get_post_type($post_ID) == 'post') {
 		foreach (get_the_category($post_ID) as $c) {
@@ -70,16 +70,16 @@ function render_block_evolution_post_list( $attributes, $content, $block ) {
 	}
 
 	if ( 
-		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && !is_home() ) ) && ( isset( $attributes['showCategory'] ) && $attributes['showCategory'] ) ) 
-		|| ( is_sticky($post_ID) && is_home() && ( isset( $attributes['showCategoryOnSticky'] ) && $attributes['showCategoryOnSticky'] ) )
+		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && is_paged() ) ) && ( isset( $attributes['showCategory'] ) && $attributes['showCategory'] ) ) 
+		|| ( is_sticky($post_ID) && is_home() && !is_paged() && ( isset( $attributes['showCategoryOnSticky'] ) && $attributes['showCategoryOnSticky'] ) )
 	) {
 		$post_terms = evolution_categories($post_ID);
 		$categories = '<header class="wp-block-post-terms">'.$post_terms.'</header>';
 	}
 
 	if ( 
-		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && !is_home() ) ) && ( isset( $attributes['showExcerpt'] ) && $attributes['showExcerpt'] ) )
-		|| ( is_sticky($post_ID) && is_home() && ( isset( $attributes['showExcerptOnSticky'] ) && $attributes['showExcerptOnSticky'] ) )
+		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && is_paged() ) ) && ( isset( $attributes['showExcerpt'] ) && $attributes['showExcerpt'] ) )
+		|| ( is_sticky($post_ID) && is_home() && !is_paged() && ( isset( $attributes['showExcerptOnSticky'] ) && $attributes['showExcerptOnSticky'] ) )
 	) {
 		if ( strlen( get_the_excerpt( $post_ID ) ) ){
 			$excerpt = '<p>'.get_the_excerpt( $post_ID ).'</p>';
@@ -87,8 +87,8 @@ function render_block_evolution_post_list( $attributes, $content, $block ) {
 	}
 
 	if ( 
-		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && !is_home() ) ) && ( isset( $attributes['showReadMore'] ) && $attributes['showReadMore'] ) )
-		|| ( is_sticky($post_ID) && is_home() && ( isset( $attributes['showReadMoreOnSticky'] ) && $attributes['showReadMoreOnSticky'] ) )
+		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && is_paged() ) ) && ( isset( $attributes['showReadMore'] ) && $attributes['showReadMore'] ) )
+		|| ( is_sticky($post_ID) && is_home()  && !is_paged() && ( isset( $attributes['showReadMoreOnSticky'] ) && $attributes['showReadMoreOnSticky'] ) )
 	) {
 		if ( strlen( get_the_excerpt( $post_ID ) ) ){
 			$readMore = '<footer class="wp-block-group">'.__( 'Read more', 'evolution' ).'</footer>';
