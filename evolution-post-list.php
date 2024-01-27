@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Evolution Post List
  * Description:       A Gutenberg block containing a template for a list of posts. 
- * Version:           2.0
+ * Version:           2.1
  * Requires at least: 6.1
  * Requires PHP:      8.0
  * Author:            Matheus Misumoto
@@ -70,7 +70,7 @@ function render_block_evolution_post_list( $attributes, $content, $block ) {
 	}
 
 	if ( 
-		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && is_paged() ) ) && ( isset( $attributes['showCategory'] ) && $attributes['showCategory'] ) ) 
+		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && ( is_archive() || is_paged() ) ) ) && ( isset( $attributes['showCategory'] ) && $attributes['showCategory'] ) ) 
 		|| ( is_sticky($post_ID) && is_home() && !is_paged() && ( isset( $attributes['showCategoryOnSticky'] ) && $attributes['showCategoryOnSticky'] ) )
 	) {
 		$post_terms = evolution_categories($post_ID);
@@ -78,7 +78,7 @@ function render_block_evolution_post_list( $attributes, $content, $block ) {
 	}
 
 	if ( 
-		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && is_paged() ) ) && ( isset( $attributes['showExcerpt'] ) && $attributes['showExcerpt'] ) )
+		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && ( is_archive() || is_paged() ) ) ) && ( isset( $attributes['showExcerpt'] ) && $attributes['showExcerpt'] ) )
 		|| ( is_sticky($post_ID) && is_home() && !is_paged() && ( isset( $attributes['showExcerptOnSticky'] ) && $attributes['showExcerptOnSticky'] ) )
 	) {
 		if ( strlen( get_the_excerpt( $post_ID ) ) ){
@@ -87,7 +87,7 @@ function render_block_evolution_post_list( $attributes, $content, $block ) {
 	}
 
 	if ( 
-		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && is_paged() ) ) && ( isset( $attributes['showReadMore'] ) && $attributes['showReadMore'] ) )
+		( ( !is_sticky($post_ID) || ( is_sticky($post_ID) && ( is_archive() || is_paged() ) ) ) && ( isset( $attributes['showReadMore'] ) && $attributes['showReadMore'] ) )
 		|| ( is_sticky($post_ID) && is_home()  && !is_paged() && ( isset( $attributes['showReadMoreOnSticky'] ) && $attributes['showReadMoreOnSticky'] ) )
 	) {
 		if ( strlen( get_the_excerpt( $post_ID ) ) ){
