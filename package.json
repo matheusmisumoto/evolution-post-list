@@ -12,12 +12,14 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
+		"start": "wp-scripts start",
+		"env": "wp-env"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.8.0"
+		"@wordpress/env": "^10.14.0",
+		"@wordpress/scripts": "^30.7.0"
 	},
 	"dependencies": {
-		"@wordpress/server-side-render": "^4.14.0"
+		"@wordpress/server-side-render": "^5.14.0"
 	}
 }
