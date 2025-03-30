@@ -16,10 +16,10 @@
 		"env": "wp-env"
 	},
 	"devDependencies": {
-		"@wordpress/env": "^10.14.0",
+		"@wordpress/env": "^10.21.0",
 		"@wordpress/scripts": "^30.7.0"
 	},
 	"dependencies": {
-		"@wordpress/server-side-render": "^5.14.0"
+		"@wordpress/server-side-render": "^5.9.0"
 	}
 }
